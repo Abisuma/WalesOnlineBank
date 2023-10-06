@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wales_Online_Bank.Data;
 
@@ -11,9 +12,11 @@ using Wales_Online_Bank.Data;
 namespace Wales_Online_Bank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231004201001_justpulledfromgit")]
+    partial class justpulledfromgit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,14 +176,12 @@ namespace Wales_Online_Bank.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("CustomerUserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Number")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TransactionDescription")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TypeofAccount")
+                        .HasColumnType("int");
 
                     b.HasKey("AccountId");
 
@@ -282,8 +283,7 @@ namespace Wales_Online_Bank.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId")
-                        .IsUnique();
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -350,18 +350,12 @@ namespace Wales_Online_Bank.Migrations
             modelBuilder.Entity("Wales_Online_Bank.Models.CustomerUser", b =>
                 {
                     b.HasOne("Wales_Online_Bank.Models.Account", "Account")
-                        .WithOne("CustomerUser")
-                        .HasForeignKey("Wales_Online_Bank.Models.CustomerUser", "AccountId")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("Wales_Online_Bank.Models.Account", b =>
-                {
-                    b.Navigation("CustomerUser")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
