@@ -17,6 +17,7 @@
             <div class="col-md-12">
                 <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data" class="row">
                     
+
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                    <div class=" row form-floating col-md-12 mb-4">
@@ -133,12 +134,7 @@
                         
                     </div>
                     
-                   @* <div class="form-floating col-md-6">
-                        <select asp-for="Input.Role" asp-items="@Model.Input.RoleLists" class="form-select rounded mb-4">
-                            <option disabled selected>-Select Role-</option>
-                        </select>
-
-                    </div>*@
+                   
                     <div class="col-2 mt-4  justify-item-end">
                         <button id="registerSubmit" type="submit" class="btn btn-md btn-primary text-end">Submit</button>
                     </div>

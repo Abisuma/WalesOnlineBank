@@ -207,7 +207,8 @@ namespace Wales_Online_Bank.Areas.Identity.Pages.Account
                     user.Account = new Wales_Online_Bank.Models.Account();
                 }
                 user.Account.Number = Input.Account.Number;
-
+                //user.Account.CustomerUserId = user.Id;
+                user.Account.AccountName = user.FirstName + " " + user.LastName;    
 
                 if (Input.ProfileImage != null)
                   {
@@ -232,9 +233,7 @@ namespace Wales_Online_Bank.Areas.Identity.Pages.Account
                     {
                         _logger.LogInformation("User created a new account with password.");
 
-                       //string accountNumber = GenerateAccountNumber().ToString();
-
-                       //user.Account.Number = accountNumber;      
+                          
 
                     var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -290,22 +289,7 @@ namespace Wales_Online_Bank.Areas.Identity.Pages.Account
                     throw new NotSupportedException("The default UI requires a user store with email support.");
                 }
                 return (IUserEmailStore<Wales_Online_Bank.Models.CustomerUser>)_userStore;
-            }
-
-        
-
-        //private static readonly Random random = new Random();
-
-        //public static long GenerateAccountNumber()
-        //{
-        //    // Generate a random number between 0 and 9999999999 (10 digits)
-        //    long randomNumber = random.NextInt64(0, 10000000000L);
-
-        //    // Ensure that the number has exactly 10 digits
-        //    return randomNumber;
-        //}
-
-       
+            }       
     }
 
 }

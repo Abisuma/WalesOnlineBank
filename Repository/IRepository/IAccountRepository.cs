@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,11 @@ namespace ApptmentmentScheduler.DataAccessLayer.Repository.IRepository
 {
     public interface IAccountRepository: IRepository<Account>
     {
-        public decimal MakeDeposit(decimal amount);
-       public decimal MakeWithdrawal(decimal amount);    
-       
+        //public decimal MakeDeposit(decimal amount);
+       //public decimal MakeWithdrawal(decimal amount);
+        public Account GetAccountByAccountNumber(string accountNumber);
+        
+
+
     }
 }

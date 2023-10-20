@@ -41,6 +41,9 @@ namespace Wales_Online_Bank.Repository
             return query.ToList();
        }
 
-        
+        public void UpdateAccOrCustomerUser(T entity)
+        {
+            dbSet.Update(entity);
+        }
     }
 }

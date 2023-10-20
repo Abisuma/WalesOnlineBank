@@ -18,6 +18,13 @@ namespace Wales_Online_Bank.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<Account>()
+            //.HasOne(a => a.CustomerUser)
+            //.WithOne(c => c.Account)
+            //.HasForeignKey<Account>(a => a.CustomerUserId);
+
+
+
         }
 
     }

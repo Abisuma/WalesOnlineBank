@@ -1,0 +1,128 @@
+﻿@page
+@model Wales_Online_Bank.Areas.Identity.Pages.Account.ProfileEditModel
+
+
+<div class="card mt-4">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-12 text-center">
+                <span class="py-2 display-6">Edit your profile</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card-body p-4">
+        <div class="row pt-3">
+            <div class="col-md-12">
+                <form id="registerForm"  method="post" enctype="multipart/form-data" class="row">
+                    @*<input asp-for="CustomerUser.Id" hidden />*@
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                   <div class=" row form-floating col-md-12 mb-4">
+                       <div class ="col-md-4">
+
+                        <label asp-for="CustomerUser.FirstName" class=" text-muted"></label>
+                        <input asp-for="CustomerUser.FirstName" class="form-control" autocomplete="username" aria-required="true" disabled />
+                        <span asp-validation-for="CustomerUser.FirstName" class="text-danger"></span>
+                       </div>
+
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.LastName" class=" text-muted"></label>
+                            <input asp-for="CustomerUser.LastName" class="form-control" autocomplete="username" aria-required="true" disabled />
+                            <span asp-validation-for="CustomerUser.LastName" class="text-danger"></span>
+                        </div>
+                   </div>
+
+                   <div class=" row form-floating col-md-12 mb-4">
+                         <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.GenderType" class=" text-muted"></label>
+                            <input asp-for="CustomerUser.GenderType" disabled/>
+                                
+                         </div>
+
+                    <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.PhoneNum" class="text-muted"></label>
+                            <input asp-for="CustomerUser.PhoneNum" class="form-control" autocomplete="username" aria-required="true" />
+                            <span asp-validation-for="CustomerUser.PhoneNum" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.MaritalStatusOfCustomerUser" class="text-muted"></label>
+                            <input asp-for="CustomerUser.MaritalStatusOfCustomerUser" disabled />
+                            
+                        </div>
+                    </div>
+
+                    <div class=" row form-floating col-md-12 mb-4">
+                        
+
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.Address" class=" text-muted"></label>
+                            <input asp-for="CustomerUser.Address" class="form-control" autocomplete="username" aria-required="true" />
+                            <span asp-validation-for="CustomerUser.Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class=" row form-floating col-md-12 mb-4">
+                        @*<div class="col-md-2">
+
+                            <label asp-for="CustomerUser.IdType" class="text-muted"></label>
+                            <input asp-for="CustomerUser.IdType" disabled />
+                                
+                           
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.IdCardNumber" class="text-muted"></label>
+                            <input disabled asp-for="CustomerUser.IdCardNumber" class="form-control" autocomplete="username" aria-required="true" />
+                            
+                            <span asp-validation-for="CustomerUser.IdCardNumber" class="text-danger"></span>
+                    </div>*@
+                        <div class="col-md-6">
+
+                            <label asp-for="CustomerUser.ImageUrl" class=" text-muted"></label>
+                            <input asp-for="CustomerUser.ImageUrl" class="form-control" autocomplete="username" aria-required="true" />
+                            <span asp-validation-for="CustomerUser.ImageUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class=" row form-floating col-md-12 mb-4">
+                    <div class="col-md-4">
+                        <label asp-for="CustomerUser.Email" class="text-muted"></label>
+                        <input asp-for="CustomerUser.Email" class="form-control" autocomplete="username" aria-required="true" />
+                        <span asp-validation-for="CustomerUser.Email" class="text-danger"></span>
+                    </div>
+                 
+                    </div>
+
+                   @* <div class=" row form-floating col-md-12 mb-4">
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.Account.Number" class=" text-muted"></label>
+                            <input disabled asp-for="CustomerUser.Account.Number" id="CustomerUser_Account_Number" class="form-control disabled" autocomplete="username" aria-required="true" />
+                            
+                        </div>
+                       
+                        
+                    </div>*@
+                    
+                   @* <div class="form-floating col-md-6">
+                        <select asp-for="CustomerUser.Role" asp-items="@Model.CustomerUser.RoleLists" class="form-select rounded mb-4">
+                            <option disabled selected>-Select Role-</option>
+                        </select>
+
+                    </div>*@
+                    <div class="col-2 mt-4  justify-item-end">
+                        <button id="registerSubmit" type="submit" class="btn btn-md btn-primary text-end">Update</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+    </div>
+</div>

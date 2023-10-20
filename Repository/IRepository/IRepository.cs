@@ -13,7 +13,9 @@ namespace Wales_Online_Bank.Repository.IRepository
         T GetAccOrCustomerUser(Expression<Func<T, bool>> filter);
         void CreateAccOrCustomerUser(T entity);
           
-        void DeleteAccOrCustomerUser(T entity);   
+        void DeleteAccOrCustomerUser(T entity); 
+        
+        void UpdateAccOrCustomerUser(T entity);
     }
     
     

@@ -5,7 +5,7 @@
 namespace Wales_Online_Bank.Migrations
 {
     /// <inheritdoc />
-    public partial class removedCustomerUserid : Migration
+    public partial class initialrefresh : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

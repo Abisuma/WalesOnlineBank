@@ -12,8 +12,8 @@ using Wales_Online_Bank.Data;
 namespace Wales_Online_Bank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231004201001_justpulledfromgit")]
-    partial class justpulledfromgit
+    [Migration("20231020082033_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,6 +170,9 @@ namespace Wales_Online_Bank.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountId"));
 
+                    b.Property<string>("AccountName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
@@ -177,11 +180,7 @@ namespace Wales_Online_Bank.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Number")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeofAccount")
-                        .HasColumnType("int");
 
                     b.HasKey("AccountId");
 

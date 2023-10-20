@@ -9,9 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-    sqlServerOptionsAction: sqlOptions=>
+builder.Services.AddDbContext<AppDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    sqlServerOptionsAction: sqlOptions  =>
     {
         sqlOptions.EnableRetryOnFailure();
     }
@@ -19,9 +18,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 builder.Services.AddRazorPages();
-builder.Services.AddDefaultIdentity<CustomerUser>()
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddDefaultIdentity<CustomerUser>().AddEntityFrameworkStores<AppDbContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+
+});
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -52,6 +57,7 @@ app.UseRouting();
 app.UseAuthentication();;
 
 app.UseAuthorization();
+app.UseSession();
 app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",

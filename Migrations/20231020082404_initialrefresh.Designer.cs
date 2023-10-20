@@ -12,8 +12,8 @@ using Wales_Online_Bank.Data;
 namespace Wales_Online_Bank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231003151114_newMigration")]
-    partial class newMigration
+    [Migration("20231020082404_initialrefresh")]
+    partial class initialrefresh
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,6 +170,9 @@ namespace Wales_Online_Bank.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountId"));
 
+                    b.Property<string>("AccountName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
@@ -177,11 +180,7 @@ namespace Wales_Online_Bank.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Number")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeofAccount")
-                        .HasColumnType("int");
 
                     b.HasKey("AccountId");
 
@@ -205,9 +204,6 @@ namespace Wales_Online_Bank.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateOfBirth")

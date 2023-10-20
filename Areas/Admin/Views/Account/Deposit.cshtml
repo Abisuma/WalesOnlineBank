@@ -1,0 +1,86 @@
+﻿@model DepositViewModel
+<div class="container-fluid">
+    <div class="card row col-md-12 ms-4 mt-3">
+        <div class="card-header row bg-info">
+            <span>Customer Deposit Form</span>
+        </div>
+        <form asp-action="Deposit" method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="text-muted">Account Number</label>
+                    <input class="form-control"  id="accountnumber" />
+                </div> 
+                <div class="col-md-6 mt-2">
+                    <button type="button"class="bg-primary col-md-2 btn btn-primary sidebetweenbars" onclick="fetchAccountName(document.getElementById('accountnumber').value)">Search</button>
+                    <button type="button" class="bg-primary col-md-2 btn btn-primary sidebetweenbars" onclick="depositAmount()">Deposit</button>
+                    <button type="reset" class="bg-danger col-md-2 btn btn-primary">Reset</button>
+                </div>
+            </div>
+            <div class="row mb-4 mt-4">
+                <div class="col-md-6">
+                    <label class="text-muted">Customer Name</label>
+                    <input class="form-control" disabled id="customerName" />
+                </div>
+                <div class="col-md-6">
+                    <label class="text-muted">Amount to Deposit</label>
+                    <input id="Amount" class="form-control" placeholder="Enter Amount Here" />
+                </div>
+
+                <a asp-area="Admin" asp-controller="Account" asp-action="MakeDeposit">click me</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function fetchAccountName(accountNumber) 
+    {
+        //Make an AJAX request to your server to fetch account details.
+        $.ajax({
+            url: '/admin/account/GetAccountName',
+            method: 'GET',
+            data: { accountNumber: accountNumber },
+            success: function (data) {
+                //Set the account name without clearing the account number
+                $('#customerName').val(data.accountName);
+            },
+            error: function (error) {
+                console.error('Error fetching account details:', error);
+            }
+        });
+    }
+
+
+
+    function depositAmount() 
+    {
+        
+        var accountNumber = document.getElementById('accountnumber').value;
+        
+            var depositAmount = parseFloat(document.getElementById('Amount').value); // Retrieve the amount to deposit
+        if (isNaN(depositAmount)) console.log("depositamount is not a real number");
+        if ((accountNumber.Length != 0 )&& depositAmount > 0) {
+            $.ajax({
+                url: '/admin/account/MakeDeposit',
+                method: 'POST',
+                data: { accountNumber: accountNumber, amount: depositAmount },
+                success: function (data) {
+                    alert('Deposit successful.');
+                    // You can add additional actions like updating the balance display.
+                },
+                error: function (error) {
+                    console.error('Error depositing amount:', error);
+                }
+            });
+        }
+        else {
+            alert('Please enter a valid account number and a positive amount to deposit.');
+            // if (event) {
+            //     event.preventDefault();
+            // }
+
+        }
+    }
+
+</script>
+

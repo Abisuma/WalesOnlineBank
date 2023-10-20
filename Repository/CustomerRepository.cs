@@ -1,4 +1,5 @@
 ﻿using ApptmentmentScheduler.DataAccessLayer.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 using Wales_Online_Bank.Data;
 using Wales_Online_Bank.Models;
 
@@ -11,6 +12,8 @@ namespace Wales_Online_Bank.Repository
         {
             _dbContext = dbContext;
         }
+
+        
 
         public void UpdateCustomerUser(CustomerUser obj)
         {

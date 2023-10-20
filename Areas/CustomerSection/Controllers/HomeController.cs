@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Plugins;
 using System.Diagnostics;
 using Wales_Online_Bank.Models;
 
@@ -16,13 +17,10 @@ namespace Wales_Online_Bank.Areas.CustomerUser.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return Redirect("Identity/Account/Login");
         }
 
-        //public IActionResult Proceed()
-        //{
-        //    return RedirectToPage("/Account/Login");
-        //}
+        
         public IActionResult Privacy()
         {
             return View();

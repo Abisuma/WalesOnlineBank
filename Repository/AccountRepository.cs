@@ -1,5 +1,6 @@
 ﻿using ApptmentmentScheduler.DataAccessLayer.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using Wales_Online_Bank.Data;
 using Wales_Online_Bank.Models;
 
@@ -13,30 +14,23 @@ namespace Wales_Online_Bank.Repository
             _dbContext = dbContext;
         }
 
-
-        
+        public Account GetAccountByAccountNumber(Account obj)
+        {
+            var account = _dbContext.Accounts.FirstOrDefault(u => u.Number == obj.Number);
             
-        public decimal MakeDeposit(decimal amount)
-        {
-            var account = new Account();
-            if (amount > 0)
+            if (account != null)
             {
-                account.Amount = amount;    
-                account.Balance = account.Balance + account.Amount;
+                return account;
             }
-                return account.Balance;
-             
+
+            return obj;
         }
 
-        public decimal MakeWithdrawal(decimal amount)
+        public Account GetAccountByAccountNumber(string accountNumber)
         {
-            var account = new Account();
-            if (amount > 0 && account.Balance > amount)
-            {
-                account.Amount = amount;
-                account.Balance = account.Balance - account.Amount;
-            }
-            return account.Balance;
+            return _dbContext.Accounts.FirstOrDefault(t => t.Number.Equals(accountNumber));
         }
+
+
     }
 }

@@ -1,6 +1,9 @@
 ﻿@page
 @model LoginModel
 
+@*@{
+    string id = PageContext.HttpContext.Request.Query["id"];
+ }*@
 <h1>@ViewData["Title"]</h1>
 <div class="container mt-5">
     <div class="row justify-content-center ">
@@ -12,7 +15,7 @@
                 <div class="card-body">
         <section>
             <form id="account" method="post">
-                
+                            @*<input hidden asp-for="Input.CustomerUser.Id" />*@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
                     <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
@@ -49,10 +52,10 @@
                 <hr/>
                 <div class="row col-12 justify-content-md-between">
                    <div class="col-md-6 justify-content-md-start" >
-                       <a href="#">Admin Login</a>
+                         <a asp-area= "Admin" asp-page="/Login/LoginAdmin">Admin Login</a>
                    </div>
-                                <div class="col-md-6 text-md-end">
-                                    <button id="login-submit" type="submit" class=" btn btn-md btn-primary" asp-area="CustomerSection" asp-controller="CustomerUser" asp-action="DashBoard">Login</button>
+                    <div class="col-md-6 text-md-end">
+                                    <button id="login-submit" type="submit" class=" btn btn-md btn-primary">Login</button>
                     </div>
                 </div>
             </form>
@@ -66,6 +69,7 @@
                     <div class="text-center"><a class="btn btn-md btn-primary" id="register" asp-area="Identity" asp-page="/Account/Register">Sign Up!</a></div>
                 </div>
         </div>
+</div>
 </div>
 </div>
 @section Scripts {
