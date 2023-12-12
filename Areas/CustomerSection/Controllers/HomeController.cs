@@ -17,7 +17,7 @@ namespace Wales_Online_Bank.Areas.CustomerUser.Controllers
 
         public IActionResult Index()
         {
-            return Redirect("Identity/Account/Index");
+            return Redirect("Identity/Account/index");
         }
 
         
