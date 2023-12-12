@@ -18,13 +18,13 @@ using Wales_Online_Bank.Models;
 
 namespace Wales_Online_Bank.Areas.Identity.Pages.Account
 {
-    public class LoginModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly SignInManager<Wales_Online_Bank.Models.CustomerUser> _signInManager;
         private readonly UserManager<Wales_Online_Bank.Models.CustomerUser> _userManager;
-        private readonly ILogger<LoginModel> _logger;
+        private readonly ILogger<IndexModel> _logger;
 
-        public LoginModel(SignInManager<Wales_Online_Bank.Models.CustomerUser> signInManager, ILogger<LoginModel> logger, UserManager<Wales_Online_Bank.Models.CustomerUser> userManager)
+        public IndexModel(SignInManager<Wales_Online_Bank.Models.CustomerUser> signInManager, ILogger<IndexModel> logger, UserManager<Wales_Online_Bank.Models.CustomerUser> userManager)
         {
             _signInManager = signInManager ;
             _logger = logger;
