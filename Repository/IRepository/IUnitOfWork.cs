@@ -1,4 +1,4 @@
-﻿using ApptmentmentScheduler.DataAccessLayer.Repository.IRepository;
+﻿using Wales_Online_Bank.Models.Repository.IRepository;
 
 namespace Wales_Online_Bank.Repository.IRepository
 {
@@ -7,6 +7,7 @@ namespace Wales_Online_Bank.Repository.IRepository
 
         IAccountRepository Account { get; }
         ICustomerUserRepository CustomerUser { get; }
+        ITransactionRepository Transaction { get; }
         void Save();
     }
 }

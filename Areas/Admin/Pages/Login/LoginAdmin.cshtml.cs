@@ -46,7 +46,6 @@ namespace Wales_Online_Bank.Areas.Admin.Pages.Login
                 {
                     _logger.LogInformation("Admin logged in.");
 
-                    // You can perform additional checks or authentication here.
                     // If successful, you can set a session variable or cookie to recognize the admin user.
                     HttpContext.Session.SetString("IsAdmin", "true");
                     // Redirect to the admin dashboard.

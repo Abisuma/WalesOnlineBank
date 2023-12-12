@@ -9,13 +9,10 @@ using Wales_Online_Bank.Repository.IRepository;
 
 namespace Wales_Online_Bank.Models.Repository.IRepository
 {
-    public interface IAccountRepository: IRepository<Account>
+    public interface ITransactionRepository : IRepository<Transaction>
     {
-        //public decimal MakeDeposit(decimal amount);
-       //public decimal MakeWithdrawal(decimal amount);
-        public Account GetAccountByAccountNumber(string accountNumber);
-        
-
-
+        public List<Transaction> GetTransactionsForUser(int accountid);
+        public List<Transaction> GetDepositList();
+        public List<Transaction> GetWithdrawalList();
     }
 }

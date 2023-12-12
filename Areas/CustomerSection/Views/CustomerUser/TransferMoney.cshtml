@@ -1,4 +1,4 @@
-﻿@model CustomerUser
+﻿@model TransferViewModel
 
 <style>
     /* Custom CSS to set the height of columns and their parent to 100% */
@@ -22,27 +22,29 @@
         margin-right: 50px;
     }
 </style>
-
+<div class="container-fluid">
+    <div class="row">
             <div class= "col-md-12" > <span>Transfer Money</span></div>
                    <hr/>
-          
+    </div>
         <!--overall row-->
-        <div class="container-fluid">
-            <div class= "row col-md-12 ">
+        
+    <div class="row">
+        <div class="col-md-12 row justify-content-md-around">
                <!--first box-->
-                <div class= "card col-md-6 ms-3 "> 
-                    <div class="card-header row  bg-info ">
+                <div class= "card col-md-5"> 
+                    <div class="card-header bg-info row">
                       <span>Sourced Account</span>
                     </div>
                     <div class="row" id="transfer-money-section">
                         <div class="col-md-6">
                     
                          <label class=" text-muted" asp-for="Account.Number">Account Number</label>
-                         <input asp-for="Account.Number" class="form-control" disabled />
+                         <input asp-for="Account.Number" class="form-control" disabled id="Account_Number" />
                         </div>
                         <div class="col-md-6">
                             <label class=" text-muted" asp-for="Account.AccountName">Account Name</label>
-                <input asp-for="Account.AccountName" class="form-control " disabled id="accounnamepopulated"/>
+                            <input asp-for="Account.AccountName" class="form-control " disabled id="accounnamepopulated"/>
                         </div>
                     </div>
 
@@ -50,7 +52,7 @@
                         <div class="col-md-6 mb-4">
                     
                          <label  class=" text-muted" asp-for="Account.Amount">Amount To Transfer</label>
-                         <input asp-for="Account.Amount" class="form-control" />
+                          <input asp-for="Account.Amount" class="form-control" id="Amount" />
                         </div>
                     
                     </div>
@@ -58,63 +60,108 @@
                <!--first box end-->
 
                 <!--second box-->
-                            
-                   
+
+                <div class="card col-md-5">
+                    <div class="card-header bg-info row ">
+                        <span>Destination Account</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <label class=" text-muted">Account Number</label>
+                            <input asp-for="DestinationAccount" class="form-control" id="accountnumber" />
+                        </div>
+
+                        <div class="col-md-2 mt-4">
+
+                            <button type="button" onclick="fetchAccountName(document.getElementById('accountnumber').value)">Search</button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 mt-4">
+                        <div class="col-md-6">
+
+                            <label class=" text-muted">Account Name</label>
+                            <input class="form-control" disabled id="customerName" />
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="text-muted">Description</label>
+                            <input asp-for="Account.TransactionDescription" class="form-control" />
+                        </div>
+                    </div>
+                </div>
                 <!--second box end-->
             </div>
-<div class="card col-md-6 ms-4 mt-3">
-    <div class="card-header row  bg-info ">
-        <span>Destination Account</span>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-
-            <label class=" text-muted">Account Number</label>
-            <input class="form-control" id="accountnumber"/>
-        </div>
-
-        <div class="col-md-2 mt-4">
-            <button onclick="fetchAccountName(document.getElementById('accountnumber').value)">Search</button>
-        </div>
-    </div>
-
-    <div class="row mb-4 mt-4">
-        <div class="col-md-6">
-
-            <label class=" text-muted">Amount Name</label>
-            <input class="form-control" disabled id="accountName" />
-        </div>
-
-        <div class="col-md-6">
-
-            <label class="text-muted">Description</label>
-            <input asp-for="Account.TransactionDescription" class="form-control" />
-        </div>
     </div>
 </div>
-</div>
 
-<div class="row col-md-12 mt-4 ">
-    <button class="bg-primary col-md-2 ms-3 ml-3 btn btn-primary sidebetweenbars">Transfer</button>
-      <button class="bg-danger  col-md-2 btn btn-primary">Reset</button>
+<div class="row mt-5 align-self-md-auto ms-md-5">
+    <button type="button" class="bg-primary col-md-2 ms-3 ml-3 btn btn-primary sidebetweenbars" onclick="transferFunds()">Transfer</button>
+      <button type="reset" class="bg-danger  col-md-2 btn btn-primary">Reset</button>
     </div>
 
 <script>
     function fetchAccountName(accountNumber) {
-        // Make an AJAX request to your server to fetch the account name.
-        // Replace '/api/GetAccountName' with the actual server endpoint.
+        //Make an AJAX request to your server to fetch account details.
         $.ajax({
-            url: ' /customersection/customeruser/GetAccountName',
+            url: '/admin/account/GetAccountName',
             method: 'GET',
             data: { accountNumber: accountNumber },
             success: function (data) {
-                // Update the account name input field by id.
-                $('#accountName').val(data.accountName);
+                //Set the account name without clearing the account number
+                $('#customerName').val(data.accountName);
             },
             error: function (error) {
-                console.error('Error fetching account name:', error);
+                console.error('Error fetching account details:', error);
             }
         });
+    }
+
+
+
+    function transferFunds() {
+        
+        var sourceAccountNumber = document.getElementById('Account_Number').value;
+        var destinationAccountNumber = document.getElementById('accountnumber').value;
+        var transferAmount = parseFloat(document.getElementById('Amount').value);
+
+        if (sourceAccountNumber && destinationAccountNumber && transferAmount > 0) {
+            var requestData = {
+                Account: {
+                    Number: sourceAccountNumber,
+                    Amount: transferAmount
+                },
+                DestinationAccount: destinationAccountNumber // Include destination account number directly
+            };
+
+
+            $.ajax({
+                url: '/customersection/customeruser/TransferMoney',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
+                success: function (data) {
+
+                    //clear the fields after the transaction
+                    document.getElementById('Account_Number').value = '';
+                    document.getElementById('accountnumber').value = '';
+                    document.getElementById('Amount').value = '';
+                    document.getElementById('customerName').value = '';
+                    document.getElementById('accounnamepopulated').value = '';
+                    document.getElementById('accountnumber').value = '';
+                    document.getElementById('Account_TransactionDescription').value = '';
+                    alert('Transfer successful.');
+                    // You can add additional actions like updating the balance display.
+                },
+                error: function (error) {
+                    console.error('Error transferring amount:', error);
+                }
+            });
+        } else {
+            alert('Please enter valid source and destination account numbers, and a positive amount to transfer.');
+        }
     }
 
 

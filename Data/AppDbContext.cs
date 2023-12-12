@@ -14,15 +14,15 @@ namespace Wales_Online_Bank.Data
 
        public DbSet<Account>Accounts  { get; set; }
         public DbSet<CustomerUser> CustomerUsers { get; set; }
-        
+
+        public DbSet<Transaction> Transactions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Account>()
-            //.HasOne(a => a.CustomerUser)
-            //.WithOne(c => c.Account)
-            //.HasForeignKey<Account>(a => a.CustomerUserId);
+             // Restrict cascading delete from CustomerUser to Account
 
+            
+           base.OnModelCreating(modelBuilder);
 
 
         }

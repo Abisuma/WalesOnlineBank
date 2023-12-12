@@ -1,4 +1,4 @@
-﻿using ApptmentmentScheduler.DataAccessLayer.Repository.IRepository;
+﻿using Wales_Online_Bank.Models.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Wales_Online_Bank.Data;

@@ -1,0 +1,32 @@
+﻿@model Wales_Online_Bank.Models.ViewModels.StatementViewModel
+<div class="container-fluid">
+    <div class="row">
+
+   
+<div class="col-md-12" >
+    <h2>Transaction History</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in Model.Transactions)
+            {
+                <tr>
+                    <td>@transaction.TransactionDate</td>
+                    <td>@transaction.Description</td>
+                    <td>@transaction.Amount</td>
+                    <td>@transaction.TransactionDescription</td>
+                </tr>
+            }
+        </tbody> 
+    </table>
+</div>
+
+    </div>
+</div>

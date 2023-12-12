@@ -1,19 +1,18 @@
 ﻿@model DepositViewModel
 <div class="container-fluid">
-    <div class="card col-md-9 ms-4 mt-3">
+    <div class="card row col-md-12 ms-4 mt-3">
         <div class="card-header row bg-info">
-            <span class="col-md-12">Customer Deposit Form</span>
+            <span>Customer Deposit Form</span>
         </div>
-        <div class="card-body">
         <form asp-action="Deposit" method="post">
             <div class="row">
                 <div class="col-md-4">
                     <label class="text-muted">Account Number</label>
                     <input asp-for="Account.Number" class="form-control" id="accountnumber" />
-                </div> 
-                <div class="col-md-6 mt-4">
-                    <button type="button"class="bg-primary col-md-2 btn btn-primary sidebetweenbars" onclick="fetchAccountName(document.getElementById('accountnumber').value)">Search</button>
-                    <button type="button" class="bg-primary col-md-2 btn btn-primary sidebetweenbars" onclick="depositAmount()">Deposit</button>
+                </div>
+                <div class="col-md-6 mt-2">
+                    <button type="button" class="bg-primary col-md-2 btn btn-primary sidebetweenbars" onclick="fetchAccountName(document.getElementById('accountnumber').value)">Search</button>
+                    <button type="button" class="bg-primary col-md-2 btn btn-primary sidebetweenbars" onclick="withdrawAmount()">Withdraw</button>
                     <button type="reset" class="bg-danger col-md-2 btn btn-primary">Reset</button>
                 </div>
             </div>
@@ -23,19 +22,17 @@
                     <input asp-for="Account.AccountName" class="form-control" disabled id="customerName" />
                 </div>
                 <div class="col-md-6">
-                    <label class="text-muted">Amount to Deposit</label>
+                    <label class="text-muted">Amount to Withdraw</label>
                     <input id="Amount" asp-for="Account.Amount" class="form-control" placeholder="Enter Amount Here" />
                 </div>
 
             </div>
         </form>
     </div>
-    </div>
 </div>
 
 <script>
-    function fetchAccountName(accountNumber) 
-    {
+    function fetchAccountName(accountNumber) {
         //Make an AJAX request to your server to fetch account details.
         $.ajax({
             url: '/admin/account/GetAccountName',
@@ -53,9 +50,10 @@
 
 
 
+   
 
 
-    function depositAmount() {
+    function withdrawAmount() {
         console.log("Reached this point");
         var accountNumber = document.getElementById('accountnumber').value;
         var depositAmount = parseFloat(document.getElementById('Amount').value);
@@ -70,7 +68,7 @@
             };
 
             $.ajax({
-                url: '/admin/account/MakeDeposit',
+                url: '/admin/account/MakeWithdrawal',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(requestData),
@@ -88,4 +86,5 @@
     }
 
 </script>
+
 

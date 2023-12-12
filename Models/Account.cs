@@ -23,10 +23,8 @@ namespace Wales_Online_Bank.Models
         public string? TransactionDescription { get; set; }
 
         public string? AccountName { get; set; }
-        
-        //public CustomerUser? CustomerUserId { get; set; }
-        ////[ForeignKey("CustomerUserId")]
-        //[ValidateNever]
-        //public CustomerUser? CustomerUser { get; set; }
+        [ValidateNever]
+        public List<Transaction> Transactions { get; set; }
+
     }
 }

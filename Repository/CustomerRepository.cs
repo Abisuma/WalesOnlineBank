@@ -1,7 +1,8 @@
-﻿using ApptmentmentScheduler.DataAccessLayer.Repository.IRepository;
+﻿
 using Microsoft.EntityFrameworkCore;
 using Wales_Online_Bank.Data;
 using Wales_Online_Bank.Models;
+using Wales_Online_Bank.Models.Repository.IRepository;
 
 namespace Wales_Online_Bank.Repository
 {
@@ -20,9 +21,10 @@ namespace Wales_Online_Bank.Repository
             _dbContext.CustomerUsers.Update(obj);
         }
 
-        //public decimal Transfer (decimal amount)
-        //{
-        //    return amount;
-        //}
+        public CustomerUser GetCustomerandallProperties(CustomerUser user)
+        {
+            return _dbContext.CustomerUsers.Include(cu => cu.Account)
+            .FirstOrDefault(g => g.Id == user.Id);
+        }
     }
 }

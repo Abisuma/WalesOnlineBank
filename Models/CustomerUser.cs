@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,6 +27,9 @@ namespace Wales_Online_Bank.Models
         public int AccountId { get; set; }
         [ForeignKey("AccountId")]
         public Account Account { get; set; }
+
+        [ValidateNever]
+        public List<Transaction> Transactions { get; set; }
 
     }
 }

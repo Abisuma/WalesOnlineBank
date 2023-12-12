@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using Wales_Online_Bank.Models;
 using Wales_Online_Bank.Repository.IRepository;
 
-namespace ApptmentmentScheduler.DataAccessLayer.Repository.IRepository
+namespace Wales_Online_Bank.Models.Repository.IRepository
 {
     public interface ICustomerUserRepository: IRepository<CustomerUser>
     {
         public void UpdateCustomerUser(CustomerUser obj);
         //public decimal Transfer(decimal amount); 
-        
-        
+        public CustomerUser GetCustomerandallProperties(CustomerUser user);
+
+
     }
 }

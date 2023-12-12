@@ -34,15 +34,15 @@
                             TRANSACTION
                                  <ul class="list-unstyled">
                         <li class="mt-3 active text-white "><a class="transfer-link  hyperlinkremove" asp-area="Admin" asp-controller="Account" asp-action="Deposit">Deposit</a></li>
-                                <li class="mt-3 active text-white">Withdraw</li>
+                        <li class="mt-3 active text-white"><a class="transfer-link  hyperlinkremove" asp-area="Admin" asp-controller="Account" asp-action="Withdraw">Withdraw</a></li>
                                 </ul>
                         </li>
                     <li class="text-muted  mt-5">
                         PROFILE
 
                     <ul class="list-unstyled">
-                        <li class="mt-3 active text-white">
-                            <a asp-area="Identity" asp-page="/Account/ProfileEdit" asp-route-id="@ViewBag.UserId">Update Customer's Profile</a>
+                        <li class="mt-3 active text-white hyperlinkremove">
+                            <a asp-area="Identity" asp-page="/Account/ProfileEdit" asp-route-id="@ViewBag.UserId" class="hyperlinkremove">Update Customer's Profile</a>
                                 </li>
                             </ul>
                     </li>
@@ -52,13 +52,13 @@
 
                     <ul class="list-unstyled">
                         <li class="mt-3 active text-white">
-                            <a>Customers List</a>
+                            <a asp-area="Admin" asp-controller="Account" asp-action="CustomerList" class="hyperlinkremove">Customers List</a>
                         </li>
                         <li class="mt-3 active text-white">
-                            <a>Deposit List</a>
+                            <a asp-area="Admin" asp-controller="Account" asp-action="DepositList" class="hyperlinkremove">Deposit List</a>
                         </li>
                         <li class="mt-3 active text-white">
-                            <a>Withdrawal List</a>
+                            <a asp-area="Admin" asp-controller="Account" asp-action="WithdrawList" class="hyperlinkremove">Withdrawal List</a>
                         </li>
                     </ul>
                 </li>
