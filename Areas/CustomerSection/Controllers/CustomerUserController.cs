@@ -31,19 +31,11 @@ namespace Wales_Online_Bank.Areas.CustomerUser.Controllers
             _userManager = userManager; 
         }
 
-        public IActionResult CustomerUserList()
-        {
-            var listOfCustomerUser = _unitOfWork.CustomerUser.GetAllAccOrCustomerUser().ToList();
-
-            return View(listOfCustomerUser);
-        }
-        
        
         public  IActionResult DashBoard()
         {
             var customerUser = _userManager.Users.Include(u => u.Account).FirstOrDefault(u => u.Id == u.Id);
-            //var customUser = new Wales_Online_Bank.Models.CustomerUser();
-
+           
             if (customerUser != null)
             {
                 ViewBag.UserId = customerUser.Id;                
@@ -57,7 +49,7 @@ namespace Wales_Online_Bank.Areas.CustomerUser.Controllers
         }
 
 
-        public IActionResult TransferMoney()
+        public ViewResult TransferMoney()
         {
             // Retrieve the currently logged-in user
             var user = _userManager.GetUserAsync(User).Result;
@@ -163,7 +155,7 @@ namespace Wales_Online_Bank.Areas.CustomerUser.Controllers
 
 
 
-        public IActionResult Balance()
+        public ViewResult Balance()
         {
             // Retrieve the logged-in user's ID
             var user = _userManager.GetUserAsync(User).Result;
@@ -184,10 +176,8 @@ namespace Wales_Online_Bank.Areas.CustomerUser.Controllers
             return View("Error"); // You can create a custom error view.
         }
 
-        public IActionResult Statement()
+        public ViewResult Statement()
         {
-
-            
 
             int accountId = GetCurrentUsersAccountId(); // Replace with your logic to get the user's account ID
 

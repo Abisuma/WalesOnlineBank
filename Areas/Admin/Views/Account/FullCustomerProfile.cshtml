@@ -1,0 +1,171 @@
+﻿@model UpdateCustomerView
+
+<div class="card mt-4">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-12 text-center">
+                <span class="py-2 display-6">Update Customer's Detail'</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card-body p-4">
+        <div class="row pt-3">
+            <div class="col-md-12">
+                <form asp-action="FullCustomerProfile" method="post"  enctype="multipart/form-data" class="row">
+                    <input type="hidden" asp-for="CustomerUser.Id" id="hiddencustomerid" />
+                    @*<div asp-validation-summary="All" class="text-danger"></div>*@
+
+                    <div class=" row form-floating col-md-12 mb-4">
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.FirstName" class=" text-muted"></label>
+                            <input id="name" asp-for="CustomerUser.FirstName" class="form-control" autocomplete="username" aria-required="true" />
+                            <span asp-validation-for="CustomerUser.FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.LastName" class=" text-muted"></label>
+                            <input asp-for="CustomerUser.LastName" id="CustomerUser_LastName" class="form-control" autocomplete="username" aria-required="true" />
+                            <span asp-validation-for="CustomerUser.LastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-2 justify-item-end">
+                            <button  class="bg-primary btn btn-primary" id="fetchDetailsButton" onclick="populateFieldWithUserDetails(document.getElementById('name').value, document.getElementById('CustomerUser_LastName').value)">Search</button>
+
+                        </div>
+                    </div>
+
+                    <div class=" row form-floating col-md-12 mb-4">
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.GenderType" class=" text-muted"></label>
+                            <select id="CustomerUser_Gender" asp-for="CustomerUser.GenderType" asp-items="@(new SelectList(ViewBag.GenderType, "Value", "Text"))" class="form-control disable"></select>
+                           
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.PhoneNum" class="text-muted"></label>
+                            <input asp-for="CustomerUser.PhoneNum" id="CustomerUser_PhoneNum" class="form-control" autocomplete="username" aria-required="true" />
+                            <span asp-validation-for="CustomerUser.PhoneNum" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 form-group">
+
+                            <label asp-for="CustomerUser.MaritalStatusOfCustomerUser" class="control-label"></label>
+                            <select id="CustomerUser_MaritalStatusOfCustomerUser" asp-for="CustomerUser.MaritalStatusOfCustomerUser" asp-items="@(new SelectList(ViewBag.MaritalStatuses, "Value", "Text"))" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class=" row form-floating col-md-12 mb-4">
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.DateOfBirth" class=" text-muted"></label>
+                            <input asp-for="CustomerUser.DateOfBirth" id="CustomerUser_DateOfBirth" class="form-control" autocomplete="username" aria-required="true" data-val-date="true" />
+                            <span asp-validation-for="CustomerUser.DateOfBirth" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.Address" class=" text-muted"></label>
+                            <input asp-for="CustomerUser.Address" id="CustomerUser_Address" class="form-control" autocomplete="username" aria-required="true" />
+                            <span asp-validation-for="CustomerUser.Address" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class=" row form-floating col-md-12 mb-4">
+                        <div class="col-md-2">
+
+                            <label asp-for="CustomerUser.IdType" class="control-label"></label>
+                            <select asp-for="CustomerUser.IdType" id="CustomerUser_IdType" asp-items="@(new SelectList(ViewBag.IdCardTypes, "Value", "Text"))" class="form-control"></select>
+                        </div>
+
+
+
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.IdCardNumber" class="text-muted"></label>
+                            <input asp-for="CustomerUser.IdCardNumber" id="CustomerUser_IdCardNumber" class="form-control" autocomplete="username" aria-required="true" />
+
+                            <span asp-validation-for="CustomerUser.IdCardNumber" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+
+                            <label asp-for="CustomerUser.ImageUrl" class=" text-muted"></label>
+                            <input asp-for="CustomerUser.ImageUrl" id="CustomerUser_ImageUrl" class="form-control" autocomplete="username" aria-required="true" />
+                            <span asp-validation-for="CustomerUser.ImageUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class=" row form-floating col-md-12 mb-4">
+                        <div class="col-md-4">
+                            <label asp-for="CustomerUser.Email" class="text-muted"></label>
+                            <input asp-for="CustomerUser.Email" id="CustomerUser_Email" class="form-control" autocomplete="username" aria-required="true" />
+                            <span asp-validation-for="CustomerUser.Email" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class=" row form-floating col-md-12 mb-4">
+                        <div class="col-md-4">
+
+                            <label asp-for="CustomerUser.Account.Number" class=" text-muted"></label>
+                            <input asp-for="CustomerUser.Account.Number" id="Input_Account_Number" class="form-control disabled" autocomplete="username" aria-required="true" />
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="col-2 mt-4  justify-item-end">
+                        <button id="registerSubmit" type="submit" class="btn btn-md btn-primary text-end">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+   
+   
+    function populateFieldWithUserDetails(name, CustomerUser_LastName) {
+
+             event.preventDefault();
+            // Make an AJAX request to fetch user details based on first name and last name
+            $.ajax({
+            url: `/Admin/Account/GetUserDetails?name=${name}&CustomerUser_LastName=${CustomerUser_LastName}`,
+                type: 'GET',
+                contentType: 'application/json',
+                data: { name: name, CustomerUser_LastName: CustomerUser_LastName },
+                success: function (data) {
+                console.log(data);
+                    // Update the form fields with the fetched data
+                
+                $('#hiddencustomerid').val(data.userfulldetails.id);
+                
+                $('#CustomerUser_Gender').val(data.userfulldetails.genderType);
+                    $('#CustomerUser_PhoneNum').val(data.userfulldetails.phoneNum);
+                    $('#CustomerUser_Email').val(data.userfulldetails.email);
+                    $('#Input_Account_Number').val(data.userfulldetails.number);
+                    $('#CustomerUser_ImageUrl').val(data.userfulldetails.imageUrl);
+                    $('#CustomerUser_IdCardNumber').val(data.userfulldetails.idCardNumber);
+                    $('#CustomerUser_IdType').val(data.userfulldetails.idType);
+                    $('#CustomerUser_Address').val(data.userfulldetails.address);
+                    $('#CustomerUser_DateOfBirth').val(data.userfulldetails.dateOfBirth);
+                    $('#CustomerUser_MaritalStatusOfCustomerUser').val(data.userfulldetails.maritalStatusOfCustomeruser);
+                    // ... (update other fields as needed)
+                
+                },
+                error: function () {
+                    // Handle errors if needed
+                }
+            });
+        
+    }
+</script>

@@ -198,7 +198,7 @@ namespace Wales_Online_Bank.Areas.Identity.Pages.Account
                     user.IdType = Input.IdType;
                     user.MaritalStatusOfCustomerUser = Input.MaritalStatusOfCustomerUser; 
                     user.GenderType = Input.GenderType;
-                    user.StatusOfAccount = Input.StatusOfAccount;
+                    //user.StatusOfAccount = Input.StatusOfAccount;
                     user.DateOfBirth = Input.DateOfBirth;
                     user.PhoneNum = Input.PhoneNum;
 
@@ -254,8 +254,7 @@ namespace Wales_Online_Bank.Areas.Identity.Pages.Account
                         else
                         {
                             await _signInManager.SignInAsync(user, isPersistent: false) ;
-                               return LocalRedirect(returnUrl);
-                          //return RedirectToPage("AccountNumber", new { accountNumber });
+                            return LocalRedirect(returnUrl);
                         }
                     }
                     foreach (var error in result.Errors)

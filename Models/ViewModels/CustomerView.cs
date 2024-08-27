@@ -2,6 +2,6 @@
 {
     public class CustomerUserView
     {
-        public CustomerUser CustomerUser { get; set; }
+        public CustomerUser? CustomerUser { get; set; }
     }
 }

@@ -15,19 +15,19 @@ namespace Wales_Online_Bank.Areas.CustomerUser.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public RedirectResult Index()
         {
             return Redirect("Identity/Account/index");
         }
 
         
-        public IActionResult Privacy()
+        public ViewResult Privacy()
         {
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public ViewResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }

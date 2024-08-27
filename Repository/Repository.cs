@@ -31,7 +31,6 @@ namespace Wales_Online_Bank.Repository
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
-
             return query.FirstOrDefault();
         }
 
@@ -39,11 +38,12 @@ namespace Wales_Online_Bank.Repository
        {
             IQueryable<T> query = dbSet;
             return query.ToList();
-       }
+        }
 
         public void UpdateAccOrCustomerUser(T entity)
         {
             dbSet.Update(entity);
+            db.SaveChanges();
         }
     }
 }

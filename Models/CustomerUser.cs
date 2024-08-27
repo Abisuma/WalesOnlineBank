@@ -9,9 +9,10 @@ namespace Wales_Online_Bank.Models
     public enum MaritalStatus { Single, Married, Divorce, Widow}
     public enum Gender { Male, Female}
     public enum StatusType { Active, Inactive}
+
+
     public class CustomerUser: IdentityUser
     {
-       
         public string FirstName{get; set;}
         public string LastName { get; set; }
         public string Address { get; set; }
@@ -20,7 +21,7 @@ namespace Wales_Online_Bank.Models
         [Required] 
         public MaritalStatus MaritalStatusOfCustomerUser { get; set; }    
         public Gender GenderType { get; set; }
-        public StatusType StatusOfAccount { get; set; }
+        //public StatusType StatusOfAccount { get; set; }
         public DateTime DateOfBirth { get; set; }
         public  string PhoneNum { get; set; }
         public string?  ImageUrl { get; set; }

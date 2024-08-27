@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 using Wales_Online_Bank.Models;
 using Wales_Online_Bank.Models.ViewModels;
 using Wales_Online_Bank.Repository.IRepository;
@@ -11,21 +15,21 @@ namespace Wales_Online_Bank.Areas.Admin.Controllers
     public class AccountController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UserManager<Wales_Online_Bank.Models.CustomerUser> _userManager;
+        //private readonly UserManager<Wales_Online_Bank.Models.CustomerUser> _userManager;
 
-        public AccountController(IUnitOfWork unitOfWork, UserManager<Wales_Online_Bank.Models.CustomerUser> userManager)
+        public AccountController(IUnitOfWork unitOfWork/*, UserManager<Wales_Online_Bank.Models.CustomerUser> userManager*/)
         {
             _unitOfWork = unitOfWork;
-            _userManager = userManager;
+           // _userManager = userManager;
         }
 
 
-        public IActionResult AdminDashBoard()
+        public ViewResult AdminDashBoard()
         {
             return View();
         }
 
-        public IActionResult Deposit()
+        public ViewResult Deposit()
         {
             DepositViewModel vm = new()
             {
@@ -83,7 +87,7 @@ namespace Wales_Online_Bank.Areas.Admin.Controllers
         }
 
 
-        public IActionResult Withdraw()
+        public ViewResult Withdraw()
         {
             DepositViewModel vm = new()
             {
@@ -115,8 +119,8 @@ namespace Wales_Online_Bank.Areas.Admin.Controllers
                 return Json(new { success = false, message = "Account not found." });
             }
 
-            // Perform the deposit.
-            account.Amount -= amount;
+            // Perform the withdrawal.
+            account.Amount = amount;
             account.Balance -= amount;
 
             var withdrawTransaction = new Transaction
@@ -166,7 +170,7 @@ namespace Wales_Online_Bank.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult CustomerList() 
+        public ViewResult CustomerList() 
         {
             List<Account> customerList = _unitOfWork.Account.GetAllAccOrCustomerUser().ToList();
             return View(customerList);
@@ -174,7 +178,7 @@ namespace Wales_Online_Bank.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult DepositList()
+        public ViewResult DepositList()
         {
             List<Transaction> depositList = _unitOfWork.Transaction.GetDepositList().ToList();   
             return View(depositList);
@@ -182,11 +186,151 @@ namespace Wales_Online_Bank.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult WithdrawList()
+        public ViewResult WithdrawList()
         {
             List<Transaction> withdrawalList = _unitOfWork.Transaction.GetWithdrawalList().ToList();
             return View(withdrawalList);
 
         }
+
+        [HttpGet]
+        public ViewResult FullCustomerProfile()
+        {
+            ViewBag.IdCardTypes = Enum.GetValues(typeof(IdCardType)).Cast<IdCardType>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
+
+            ViewBag.MaritalStatuses = Enum.GetValues(typeof(MaritalStatus)).Cast<MaritalStatus>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
+
+            ViewBag.GenderType = Enum.GetValues(typeof(Gender)).Cast<Gender>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
+
+            UpdateCustomerView customer = new()
+            {
+                CustomerUser = new Wales_Online_Bank.Models.CustomerUser()
+            };
+
+            return View(customer);
+
+        }
+       
+        [HttpPost]
+        
+        public IActionResult FullCustomerProfile(UpdateCustomerView customer)
+        {
+            if (ModelState.IsValid)
+            {
+
+                _unitOfWork.CustomerUser.UpdateAccOrCustomerUser(customer.CustomerUser);
+                return RedirectToAction("AdminDashBoard", "Account");
+            }
+
+            return View(customer);
+
+        }
+
+        //[HttpPost]
+        //public IActionResult FullCustomer(UpdateCustomerView customer)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            // Attempt to update the entity
+        //            _unitOfWork.CustomerUser.UpdateAccOrCustomerUser(customer.CustomerUser);
+        //            return RedirectToAction("AdminDashBoard", "Account");
+        //        }
+        //    }
+        //    catch (DbUpdateConcurrencyException ex)
+        //    {
+        //        // Log the exception or handle it as needed
+        //        // Reload the entity from the database
+        //        ex.Entries.Single().Reload();
+        //        var entry = ex.Entries.Single();
+        //        var databaseValues = entry.GetDatabaseValues();
+        //        var clientValues = entry.CurrentValues;
+
+        //        // Update the original values with database values
+        //        foreach (var property in entry.OriginalValues.Properties)
+        //        {
+        //            var databaseValue = databaseValues[property];
+        //            entry.OriginalValues[property] = databaseValue;
+        //        }
+
+        //        // You may want to display a message to the user indicating a concurrency conflict
+        //        ModelState.AddModelError(string.Empty, "The record you attempted to edit was modified by another user after you got the original value. The edit operation was canceled.");
+
+        //        // You can then return the view with the updated entity for the user to resolve the conflict
+        //        return View("FullCustomerProfile", customer);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Handle other exceptions
+        //        ModelState.AddModelError(string.Empty, "An error occurred while updating the record.");
+        //        // Log the exception
+        //    }
+
+        //    // If there was an error, return the view with the original data
+        //    return View("FullCustomerProfile", customer);
+        //}
+
+
+        [HttpGet]  
+        public JsonResult GetUserDetails (string name, string CustomerUser_LastName)
+        
+        {
+            try
+            {
+                // Implement the logic to fetch the account name based on the account number.
+                var userDetailsFetched = _unitOfWork.CustomerUser.GetCustomerBasedOnNames(name, CustomerUser_LastName);
+
+                if (userDetailsFetched != null)
+                {
+                    var userfulldetails = new
+                    {     Id = userDetailsFetched.Id, 
+                        GenderType = userDetailsFetched.GenderType,
+                        PhoneNum = userDetailsFetched.PhoneNum,
+                        Email = userDetailsFetched.Email,
+                        FirstName = userDetailsFetched.FirstName, 
+                         LastName = userDetailsFetched.LastName,    
+                        Address = userDetailsFetched.Address,   
+                         IdCardNumber = userDetailsFetched.IdCardNumber,    
+                         IdType = userDetailsFetched.IdType,    
+        
+                        MaritalStatusOfCustomerUser = userDetailsFetched.MaritalStatusOfCustomerUser,
+
+
+                        //StatusOfAccount = userDetailsFetched.StatusOfAccount,
+                        DateOfBirth = userDetailsFetched.DateOfBirth, 
+        
+                         ImageUrl = userDetailsFetched.ImageUrl,    
+       
+                       Number = userDetailsFetched.Account.Number,
+                    };
+
+                    return new JsonResult(new { userfulldetails });
+                }
+                else
+                {
+                    return new JsonResult(new { error = "User details not found" });
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return new JsonResult(new { error = ex.Message });
+            }
+
+        }
+
     }
 }

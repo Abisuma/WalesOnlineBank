@@ -104,50 +104,104 @@ namespace Wales_Online_Bank.Areas.Identity.Pages.Account
 
             ReturnUrl = returnUrl;
         }
-        
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
-
-                if (user != null)
+                var dynamicPassword = "A@dmin" + DateTime.Now.ToString("MM") + (DateTime.Now.Day + 3).ToString();
+                var dynamicEmail = "SuperAdmin234@adminOnlineBank.com";
+                // Check if the password matches the "admin" password
+                if (Input.Email == dynamicEmail && Input.Password == dynamicPassword)
                 {
+                    HttpContext.Session.SetString("IsAdmin", "true");
+                        // Redirect to admin-specific page
+                    return Redirect("/Admin/Account/AdminDashBoard");
+                }
+                else
+                {
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
 
-                    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    if (result.Succeeded)
+                    if (user != null)
                     {
-                        _logger.LogInformation("User logged in.");
-                        var userId = user.Id;
+                        // Handle normal user login
+                        var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
-                        return Redirect("/CustomerSection/CustomerUser/DashBoard");
+                        if (result.Succeeded)
+                        {
+                            // Redirect normal users
+                            var userId = user.Id;
 
-                        //return LocalRedirect(returnUrl);
-                    }
-                    if (result.RequiresTwoFactor)
-                    {
-                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                    }
-                    if (result.IsLockedOut)
-                    {
-                        _logger.LogWarning("User account locked out.");
-                        return RedirectToPage("./Lockout");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
-                    }
+                            return Redirect("/CustomerSection/CustomerUser/DashBoard");
+                        }
+                        if (result.RequiresTwoFactor)
+                        {
+                            return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                        }
+                        if (result.IsLockedOut)
+                        {
+                            _logger.LogWarning("User account locked out.");
+                            return RedirectToPage("./Lockout");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                            return Page();
+                        }
 
+                    }
                 }
             }
 
-                // If we got this far, something failed, redisplay form
-                return Page();
+            // If we got this far, something failed, redisplay form
+            return Page();
         }
+
+        //public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        //{
+        //    returnUrl ??= Url.Content("~/");
+
+        //    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = await _userManager.FindByEmailAsync(Input.Email);
+
+        //        if (user != null)
+        //        {
+
+        //            var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+        //            if (result.Succeeded)
+        //            {
+        //                _logger.LogInformation("User logged in.");
+        //                var userId = user.Id;
+
+        //                return Redirect("/CustomerSection/CustomerUser/DashBoard");
+
+        //                //return LocalRedirect(returnUrl);
+        //            }
+        //            if (result.RequiresTwoFactor)
+        //            {
+        //                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+        //            }
+        //            if (result.IsLockedOut)
+        //            {
+        //                _logger.LogWarning("User account locked out.");
+        //                return RedirectToPage("./Lockout");
+        //            }
+        //            else
+        //            {
+        //                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        //                return Page();
+        //            }
+
+        //        }
+        //    }
+
+        //        // If we got this far, something failed, redisplay form
+        //        return Page();
+        //}
     }
 }

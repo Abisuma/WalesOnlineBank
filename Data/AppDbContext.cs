@@ -17,6 +17,7 @@ namespace Wales_Online_Bank.Data
 
         public DbSet<Transaction> Transactions { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
              // Restrict cascading delete from CustomerUser to Account

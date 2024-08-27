@@ -14,7 +14,7 @@ namespace Wales_Online_Bank.Repository
             _dbContext = dbContext;
         }
 
-        
+
 
         public void UpdateCustomerUser(CustomerUser obj)
         {
@@ -25,6 +25,12 @@ namespace Wales_Online_Bank.Repository
         {
             return _dbContext.CustomerUsers.Include(cu => cu.Account)
             .FirstOrDefault(g => g.Id == user.Id);
+        }
+
+        public CustomerUser GetCustomerBasedOnNames(string firstName, string LastName)
+        {
+            return _dbContext.CustomerUsers.Include(cu => cu.Account)
+            .FirstOrDefault(x => x.FirstName == firstName && x.LastName == LastName);
         }
     }
 }

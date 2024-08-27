@@ -14,6 +14,7 @@ namespace Wales_Online_Bank.Models.Repository.IRepository
         public void UpdateCustomerUser(CustomerUser obj);
         //public decimal Transfer(decimal amount); 
         public CustomerUser GetCustomerandallProperties(CustomerUser user);
+        public CustomerUser GetCustomerBasedOnNames(string firstName, string LastName);
 
 
     }

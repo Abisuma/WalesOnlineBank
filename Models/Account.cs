@@ -25,6 +25,8 @@ namespace Wales_Online_Bank.Models
         public string? AccountName { get; set; }
         [ValidateNever]
         public List<Transaction> Transactions { get; set; }
+        //public string Slug =>AccountName?.Replace(' ', '-').ToLower() + '-' + AccountName;
+        
 
     }
 }

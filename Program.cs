@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Wales_Online_Bank.Repository.IRepository;
 using Wales_Online_Bank.Repository;
 using Wales_Online_Bank.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Wales_Online_Bank.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>options.UseSqlServer(build
 
 builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<CustomerUser>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddTransient<IEmailSender>(s => new EmailSender("smtp.gmail.com", 587, "detunjiaish@gmail.com"));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddSession(options => {
@@ -54,12 +57,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
+
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 app.UseSession();
 app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{area=CustomerSection}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=CustomerSection}/{controller=Home}/{action=Index}/{id?}/{slug?}");
 app.Run();
